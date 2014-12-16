@@ -1,0 +1,25 @@
+{
+  "name": "rinzler",
+  "version": "1.0.0",
+  "description": "A profiling tool",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:bsgbryan/rinzler.git"
+  },
+  "keywords": [
+    "profiling"
+  ],
+  "author": "Bryan Maynard <bsgbryan@gmail.com>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/bsgbryan/rinzler/issues"
+  },
+  "homepage": "https://github.com/bsgbryan/rinzler",
+  "dependencies": {
+    "microtime": "^1.0.1"
+  }
+}
