@@ -38,7 +38,9 @@
       diff = microtime.nowDouble() - calls[id];
       delete calls[id];
       delete waits[id];
-      return diff;
+      return listeners.forEach(function(listener) {
+        return listener.notify(id, diff);
+      });
     }
   };
 
