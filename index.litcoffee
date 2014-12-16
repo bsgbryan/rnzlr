@@ -23,4 +23,4 @@
         delete calls[id]
         delete waits[id]
 
-        diff
+        listeners.forEach (listener) -> listener.notify id, diff
