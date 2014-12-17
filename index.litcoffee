@@ -68,7 +68,6 @@
         profiles[idx].progress.push microtime.nowDouble()
 
       stop: (id) -> 
-        console.log id, calls
         idx = calls.indexOf id
         profiles[idx].stop = microtime.nowDouble()
 

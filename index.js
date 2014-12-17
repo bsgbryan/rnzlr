@@ -99,7 +99,6 @@
     },
     stop: function(id) {
       var idx;
-      console.log(id, calls);
       idx = calls.indexOf(id);
       profiles[idx].stop = microtime.nowDouble();
       return delete waits[id];
