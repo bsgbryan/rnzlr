@@ -32,9 +32,12 @@
           break if index == calls.length
 
       listeners.forEach (listener) ->
-        listener.warn   warning   if typeof listener.warn   == 'function'
-        listener.counts counters  if typeof listener.counts == 'function'
-        listener.notify completed if typeof listener.notify == 'function'
+        warnings  = Object.keys(warning).length
+        counted   = Object.keys(counters).length
+        completes = Object.keys(completed).length
+        listener.warn   warning   if typeof listener.warn   == 'function' and warnings  > 0
+        listener.counts counters  if typeof listener.counts == 'function' and counted   > 0
+        listener.notify completed if typeof listener.notify == 'function' and completes > 0
 
       counters = { }
 

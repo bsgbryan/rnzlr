@@ -45,13 +45,17 @@
       }
     }
     listeners.forEach(function(listener) {
-      if (typeof listener.warn === 'function') {
+      var completes, counted, warnings;
+      warnings = Object.keys(warning).length;
+      counted = Object.keys(counters).length;
+      completes = Object.keys(completed).length;
+      if (typeof listener.warn === 'function' && warnings > 0) {
         listener.warn(warning);
       }
-      if (typeof listener.counts === 'function') {
+      if (typeof listener.counts === 'function' && counted > 0) {
         listener.counts(counters);
       }
-      if (typeof listener.notify === 'function') {
+      if (typeof listener.notify === 'function' && completes > 0) {
         return listener.notify(completed);
       }
     });
