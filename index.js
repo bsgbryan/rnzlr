@@ -73,15 +73,16 @@
         };
       }
       counters[item].count += 1;
-      counters[item].data.push({
+      return counters[item].data.push({
         details: data,
         time: microtime.nowDouble()
       });
-      return console.log(counters[item]);
     },
     start: function(id) {
       calls.push(id);
-      profiles.push(start(microtime.nowDouble()));
+      profiles.push({
+        start: microtime.nowDouble()
+      });
       return waits[id] = 0;
     },
     update: function(id) {

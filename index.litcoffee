@@ -53,7 +53,7 @@
 
       start: (id) ->
         calls.push id
-        profiles.push start microtime.nowDouble()
+        profiles.push start: microtime.nowDouble()
         waits[id] = 0
 
       update: (id) ->
