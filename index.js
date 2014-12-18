@@ -37,7 +37,7 @@
           completed[call] = profile;
           calls.splice(index, 1);
           profiles.splice(index, 1);
-        } else if (progress.progress != null) {
+        } else if (profile.progress != null) {
           progress[call] = profile.progress;
           profile.progress = [];
           ++index;
