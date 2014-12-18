@@ -17,9 +17,10 @@
   counters = {};
 
   setInterval(function() {
-    var call, completed, index, profile, warning;
+    var call, completed, completes, counted, index, profile, progress, progressed, warning, warnings;
     warning = {};
     completed = {};
+    progress = {};
     Object.keys(calls).forEach(function(id) {
       var waiting;
       waiting = ++waits[id];
@@ -36,6 +37,10 @@
           completed[call] = profile;
           calls.splice(index, 1);
           profiles.splice(index, 1);
+        } else if (progress.progress != null) {
+          progress[call] = profile.progress;
+          profile.progress = [];
+          ++index;
         } else {
           ++index;
         }
@@ -44,19 +49,22 @@
         }
       }
     }
+    warnings = Object.keys(warning).length;
+    counted = Object.keys(counters).length;
+    completes = Object.keys(completed).length;
+    progressed = Object.keys(progress).length;
     listeners.forEach(function(listener) {
-      var completes, counted, warnings;
-      warnings = Object.keys(warning).length;
-      counted = Object.keys(counters).length;
-      completes = Object.keys(completed).length;
       if (typeof listener.warn === 'function' && warnings > 0) {
         listener.warn(warning);
       }
       if (typeof listener.counts === 'function' && counted > 0) {
         listener.counts(counters);
       }
-      if (typeof listener.notify === 'function' && completes > 0) {
-        return listener.notify(completed);
+      if (typeof listener.complete === 'function' && completes > 0) {
+        listener.complete(completed);
+      }
+      if (typeof listener.progress === 'function' && progressed > 0) {
+        return listener.progress(progress);
       }
     });
     return counters = {};
@@ -66,8 +74,8 @@
     threshold: function(limit) {
       return threshold = limit;
     },
-    listener: function(fn) {
-      return listeners.push(fn);
+    listen: function(obj) {
+      return listeners.push(obj);
     },
     add: function(item, data) {
       if (counters[item] == null) {

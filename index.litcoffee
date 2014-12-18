@@ -11,6 +11,7 @@
     setInterval ->
       warning   = { }
       completed = { }
+      progress  = { }
 
       Object.keys(calls).forEach (id) ->
         waiting     = ++waits[id]
@@ -26,18 +27,25 @@
             completed[call] = profile
             calls.splice    index, 1
             profiles.splice index, 1
+          else if progress.progress?
+            progress[call] = profile.progress
+            profile.progress = [ ]
+            ++index
           else
             ++index
 
           break if index == calls.length
 
+      warnings   = Object.keys(warning).length
+      counted    = Object.keys(counters).length
+      completes  = Object.keys(completed).length
+      progressed = Object.keys(progress).length
+
       listeners.forEach (listener) ->
-        warnings  = Object.keys(warning).length
-        counted   = Object.keys(counters).length
-        completes = Object.keys(completed).length
-        listener.warn   warning   if typeof listener.warn   == 'function' and warnings  > 0
-        listener.counts counters  if typeof listener.counts == 'function' and counted   > 0
-        listener.notify completed if typeof listener.notify == 'function' and completes > 0
+        listener.warn     warning   if typeof listener.warn     == 'function' and warnings   > 0
+        listener.counts   counters  if typeof listener.counts   == 'function' and counted    > 0
+        listener.complete completed if typeof listener.complete == 'function' and completes  > 0
+        listener.progress progress  if typeof listener.progress == 'function' and progressed > 0
 
       counters = { }
 
@@ -45,7 +53,7 @@
 
     module.exports =
       threshold: (limit) -> threshold = limit
-      listener:  (fn   ) -> listeners.push fn
+      listen:    (obj  ) -> listeners.push obj
 
       add: (item, data) ->
         unless counters[item]?
