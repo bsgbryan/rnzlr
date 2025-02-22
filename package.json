@@ -1,30 +1,20 @@
 {
   "name": "rnzlr",
   "version": "1.0.0",
-  "description": "... something",
-  "bin": {
-    "rinzler": "lib/cli.js"
-  },
-  "scripts": {
-    "test": "mocha",
-    "watch": "mocha --watch"
-  },
-  "files": [
-    "lib"
-  ],
+  "description": "A functional way to build apps forthe web",
   "repository": {
     "type": "git",
-    "url": "git@github.com:bsgbryan/rinzler.git"
+    "url": "git@github.com:bsgbryan/rnzlr.git"
   },
   "keywords": [],
   "author": "Bryan Maynard <bsgbryan@gmail.com> (https://bsgbryan.com)",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/bsgbryan/rinzler/issues"
+    "url": "https://github.com/bsgbryan/rnzlr/issues"
   },
-  "homepage": "https://github.com/bsgbryan/rinzler#readme",
+  "homepage": "https://github.com/bsgbryan/rnzlr#readme",
   "dependencies": {
-    "@bsgbryan/madul": "^1.3.4",
-    "yargs": "^16.2.0"
+    "@bsgbryan/madul": "^2.0.7",
+    "typescript": "^5.7.3"
   }
 }
