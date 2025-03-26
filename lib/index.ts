@@ -1,17 +1,3 @@
-enum Elem {
-  div = 'div',
-}
+import render from './render'
 
-function createElement(
-  type: Elem,
-  props: object,
-  ...children: object[]
-) {
-  return {
-    type,
-    props: {
-      ...props,
-      children,
-    },
-  }
-}
+export default render

@@ -1,7 +1,7 @@
 {
-  "name": "rnzlr",
+  "name": "@bsgbryan/rnzlr",
   "version": "1.0.0",
-  "description": "A functional way to build apps forthe web",
+  "description": "A functional way to build apps for the web",
   "repository": {
     "type": "git",
     "url": "git@github.com:bsgbryan/rnzlr.git"
@@ -12,6 +12,18 @@
   "bugs": {
     "url": "https://github.com/bsgbryan/rnzlr/issues"
   },
+  "files": [
+    "./lib/index.js",
+    "./lib/jsx-runtime.js",
+    "./lib/jsx.d.ts"
+  ],
+  "exports": {
+    ".": "./lib/index.js",
+    "./jsx-runtime": "./lib/jsx-runtime.js",
+    "./jsx-dev-runtime": "./lib/jsx-dev-runtime.js"
+  },
+  "main": "./lib/index.js",
+  "types": "./lib/jsx.d.ts",
   "homepage": "https://github.com/bsgbryan/rnzlr#readme",
   "dependencies": {
     "@bsgbryan/madul": "^2.0.7",
