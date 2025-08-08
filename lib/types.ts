@@ -2,12 +2,16 @@ import objectify from "./objectify"
 
 export const fragment = 'fragment'
 
-export const jsx = objectify
+export const jsx 		= objectify
+export const jsxDEV = objectify
+
+export type RenderCallback = (markup: JSX.Element) => void;
 
 export declare interface DOMTree {
-  tagName:  string;
+  tagName?:  string | Function;
   attribs:  Record<string, string>;
   children: DOMTree[];
+	context?: (render: RenderCallback) => void;
 }
 
 export declare namespace JSX {

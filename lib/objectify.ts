@@ -1,16 +1,28 @@
+import {
+	DOMTree,
+	JSX,
+} from "./types"
+
 const fun = (
-  type: string,
+  type: string | Function,
   props: JSX.Props,
 ): DOMTree => {
   const output = {
     attribs: Object.
       entries(props).
       reduce((obj, [k, v]) => {
-        if (k !== 'children') obj[k] = String(v);
-        return obj;
+        if (k !== 'children') obj[k] = String(v)
+        return obj
       }, {} as Record<string, string>),
-    tagName: type,
-  } as DOMTree;
+    tagName: typeof type === 'string' ?
+	    type
+     	:
+      undefined,
+    context: typeof type === 'function' ?
+    	type
+	    :
+			undefined,
+  } as DOMTree
 
   const c = props.children;
   const isa = Array.isArray(c);
