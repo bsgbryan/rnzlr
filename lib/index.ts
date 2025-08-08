@@ -1,6 +1,6 @@
 import render from './render'
-import { RenderCallback as _Render } from './types'
+import { Callbacks as _Callbacks } from './types'
 
 export default render
 
-export type RenderCallback = _Render
+export type Callbacks = _Callbacks

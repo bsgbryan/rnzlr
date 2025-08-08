@@ -25,7 +25,7 @@ const fun = (
 			fun(markup, container)
 		}
 
-		element.context(callback)
+		element.context({ callbacks: { render: callback }})
 	}
 }
 

@@ -7,11 +7,19 @@ export const jsxDEV = objectify
 
 export type RenderCallback = (markup: JSX.Element) => void;
 
+export type Callbacks = {
+  render: RenderCallback;
+}
+
+type Params = {
+  callbacks: Callbacks;
+}
+
 export declare interface DOMTree {
   tagName?:  string | Function;
   attribs:  Record<string, string>;
-  children: DOMTree[];
-	context?: (render: RenderCallback) => void;
+  children?: DOMTree[];
+	context?: (params: Params) => void;
 }
 
 export declare namespace JSX {
