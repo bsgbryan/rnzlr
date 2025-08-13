@@ -1,9 +1,9 @@
-import render from './render'
+import render from "./render"
 
 import {
   Callbacks as _Callbacks,
   DOMTree,
-} from './types'
+} from "./types"
 
 export default render
 
