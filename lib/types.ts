@@ -1,6 +1,6 @@
 import objectify from "./objectify"
 
-export const fragment = 'fragment'
+export const Fragment = 'fragment'
 
 export const jsx 		= objectify
 export const jsxs		= objectify
@@ -17,8 +17,8 @@ type Params = {
 }
 
 export declare interface DOMTree {
-  tagName?:  string | Function;
-  attribs:  Record<string, string>;
+  tag?:  string | Function;
+  attributes:  Record<string, string>;
   children?: DOMTree[];
 	context?: (params: Params) => void;
 }
