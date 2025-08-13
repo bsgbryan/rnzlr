@@ -7,6 +7,10 @@ const fun = (
   type: string | Function,
   props: JSX.Props,
 ): DOMTree => {
+  if (typeof type === 'function' && type.name === '__WEBPACK_DEFAULT_EXPORT__') {
+    return type(props)
+  }
+
   const output = {
     attribs: Object.
       entries(props).
