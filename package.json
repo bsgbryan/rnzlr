@@ -12,7 +12,12 @@
   "bugs": {
     "url": "https://github.com/bsgbryan/rnzlr/issues"
   },
-  "files": ["./lib/index.js"],
+  "files": [
+  	"./lib/index.js",
+		"./lib/objectify.js",
+		"./lib/render.js",
+		"./lib/types.ts"
+  ],
   "exports": {
     ".": "./lib/index.js",
     "./jsx-runtime": "./lib/types.js",
