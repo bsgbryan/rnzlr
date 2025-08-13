@@ -4,18 +4,18 @@ import {
 } from "./types"
 
 const fun = (
-  type: string | Function,
+  tag: string | Function,
   props: JSX.Props,
 ): DOMTree => {
-  if (typeof type === 'function' && (
+  if (typeof tag === 'function' && (
     // The component function name for dev builds
-    type.name === '__WEBPACK_DEFAULT_EXPORT__'
+    tag.name === '__WEBPACK_DEFAULT_EXPORT__'
     ||
     // The component function name is a single letter
     // for production builds
-    type.name.length === 1
+    tag.name.length === 1
   )) {
-    return type(props)
+    return tag(props)
   }
 
   const output = {
@@ -25,12 +25,12 @@ const fun = (
         if (k !== 'children') obj[k] = String(v)
         return obj
       }, {} as Record<string, string>),
-    tag: typeof type === 'string' ?
-	    type
+    tag: typeof tag === 'string' ?
+	    tag
      	:
       undefined,
-    context: typeof type === 'function' ?
-    	type
+    context: typeof tag === 'function' ?
+    	tag
 	    :
 			undefined,
   } as DOMTree
