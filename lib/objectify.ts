@@ -22,9 +22,10 @@ const fun = (
     attributes: Object.
       entries(props).
       reduce((obj, [k, v]) => {
-        if (k !== 'children') obj[k] = String(v)
+      	if (typeof v === 'function') obj[k] = v
+      	else if (k !== 'children') obj[k] = String(v)
         return obj
-      }, {} as Record<string, string>),
+      }, {} as DOMTree['attributes']),
     tag: typeof tag === 'string' ?
 	    tag
      	:
@@ -38,8 +39,9 @@ const fun = (
   const c = props.children;
   const isa = Array.isArray(c);
 
-  if (c &&  isa                         ) output.children        = c
-  if (c && !isa && typeof c !== 'object') output.attributes.text = c
+  if (c &&  isa                         ) output.children        =  c
+  if (c && !isa && typeof c !== 'object') output.attributes.text =  c
+  if (c && !isa && typeof c === 'object') output.children        = [c as DOMTree]
 
   return output
 }

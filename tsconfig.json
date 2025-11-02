@@ -19,7 +19,8 @@
     "noUnusedParameters": true,
     "exactOptionalPropertyTypes": true,
     "noUncheckedIndexedAccess": true,
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "outDir": "dist"
   },
   "files": [ "lib/index.ts" ],
   "include": [ "lib" ],

@@ -6,24 +6,48 @@
     "type": "git",
     "url": "git@github.com:bsgbryan/rnzlr.git"
   },
+  "scripts": {
+  	"build": "tsc -p tsconfig.json"
+  },
   "keywords": [],
   "author": "Bryan Maynard <bsgbryan@gmail.com> (https://bsgbryan.com)",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/bsgbryan/rnzlr/issues"
   },
-  "files": [
-  	"./lib/index.js",
-		"./lib/objectify.js",
-		"./lib/render.js",
-		"./lib/types.ts"
-  ],
   "exports": {
-    ".": "./lib/index.js",
-    "./jsx-runtime": "./lib/types.js",
-    "./jsx-dev-runtime": "./lib/types.js"
+    ".": {
+        "require": {
+            "types": "./lib/index.ts",
+            "default": "./lib/index.ts" 
+        },
+        "import": {
+            "types": "./lib/index.ts",
+            "default": "./lib/index.ts" 
+        }
+    },
+    "./jsx-runtime": {
+        "require": {
+            "types": "./lib/types.ts",
+            "default": "./dist/types.js"
+        },
+        "import": {
+            "types": "./lib/types.ts",
+            "default": "./dist/types.js"
+        }
+    },
+	  "./jsx-dev-runtime": {
+        "require": {
+            "types": "./lib/types.ts",
+            "default": "./dist/types.js"
+        },
+        "import": {
+            "types": "./lib/types.ts",
+            "default": "./dist/types.js"
+        }
+    }
   },
-  "main": "./lib/index.js",
+  "main": "./dist/index.js",
   "types": "./lib/types.ts",
   "homepage": "https://github.com/bsgbryan/rnzlr#readme",
   "dependencies": {

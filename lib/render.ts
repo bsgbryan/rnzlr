@@ -12,8 +12,15 @@ const fun = (
         if (k === 'text') dom.appendChild(document.createTextNode(v as string))
         else {
           const n = document.createAttribute(k === 'clazz' ? 'class' : k)
-          n.value = v
-          dom.attributes.setNamedItem(n)
+          if (k.startsWith('on') && typeof v === 'function')
+          	dom.addEventListener(
+	          	k.substring(2).toLocaleLowerCase() as keyof HTMLElementEventMap,
+	          	v as EventListenerOrEventListenerObject,
+	          )
+          else if (typeof v === 'string') {
+            n.value = v
+	          dom.attributes.setNamedItem(n)
+          }
         }
       }
 

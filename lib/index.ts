@@ -1,11 +1,11 @@
-import render from "./render"
+import _render from "./render"
 
 import {
   Callbacks as _Callbacks,
   DOMTree,
 } from "./types"
 
-export default render
+export const render = _render
 
 export const Component = (init: Function) =>
   (args: unknown) => {

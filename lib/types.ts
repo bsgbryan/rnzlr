@@ -18,7 +18,7 @@ type Params = {
 
 export declare interface DOMTree {
   tag?:  string | Function;
-  attributes:  Record<string, string>;
+  attributes:  Record<string, string | Function>;
   children?: DOMTree[];
 	context?: (params: Params) => void;
 }
