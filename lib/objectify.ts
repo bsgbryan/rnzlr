@@ -3,7 +3,7 @@ import {
 	JSX,
 } from "./types"
 
-const fun = (
+export default (
   tag: string | Function,
   props: JSX.Props,
 ): DOMTree => {
@@ -45,5 +45,3 @@ const fun = (
 
   return output
 }
-
-export default fun

@@ -20,7 +20,7 @@ export declare interface DOMTree {
   tag?:  string | Function;
   attributes:  Record<string, string | Function>;
   children?: DOMTree[];
-	context?: (params: Params) => void;
+	context?: (params: Params) => JSX.Element;
 }
 
 export declare namespace JSX {
