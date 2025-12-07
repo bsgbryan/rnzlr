@@ -6,7 +6,7 @@ export const jsx 		= objectify
 export const jsxs		= objectify
 export const jsxDEV = objectify
 
-export type RenderCallback = (markup: JSX.Element) => void;
+export type RenderCallback = (component: CallableFunction) => void;
 
 export type Callbacks = {
   render: RenderCallback;
