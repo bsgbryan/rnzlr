@@ -101,6 +101,7 @@ const updateDom = (
 const commit = {
 	root: () => {
 		for (const d of to_delete) commit.work(d)
+
 		if (wip_root && wip_root.child) {
 			commit.work(wip_root.child)
 			current = wip_root
@@ -108,14 +109,13 @@ const commit = {
 		}
 	},
 	work: (fiber: Fiber) => {
-		// console.log({fiber})
-		// let parent = fiber.parent
-		// while (!parent?.container) parent = parent?.parent
+		let parent = fiber.parent
+		while (!parent?.container) parent = parent?.parent
 
 		if (fiber.effect === "CREATE" && fiber.parent?.container && fiber.container)
 			fiber.parent.container.appendChild(fiber.container)
-		else if (fiber.effect === "DELETE" && fiber.parent?.container && fiber.container)
-			fiber.parent.container.removeChild(fiber.container)
+		else if (fiber.effect === "DELETE" && parent?.container)
+			doDelete(fiber, parent.container)
 		else if (fiber.effect === "UPDATE" && fiber.parent?.container && fiber.container)
 			updateDom(fiber.container, fiber.previous?.attributes, fiber.attributes)
 
@@ -125,7 +125,7 @@ const commit = {
 }
 
 const doDelete = (fiber: Fiber, parent: Element) => {
-	if (fiber.container) parent.removeChild(fiber.container)
+	if (fiber.container && parent.contains(fiber.container)) parent.removeChild(fiber.container)
 	else if (fiber.child) doDelete(fiber.child, parent)
 }
 
@@ -144,6 +144,44 @@ const doWork = (deadline: IdleDeadline) => {
 
 requestIdleCallback(doWork)
 
+const doReconcile = (
+	elem: JSX.Element,
+	uow: Fiber,
+	old: Fiber | undefined,
+) => {
+	const same = old?.tag === elem.tag
+	let fiber: Fiber | undefined
+
+	if (same) {
+		fiber = {
+			attributes: elem.attributes,
+			children: elem.children,
+			container: old?.container,
+			context: uow.context,
+			effect: 'UPDATE',
+			parent: uow,
+			previous: old,
+			tag: old?.tag,
+		}
+	}
+	else if (elem && !same) {
+		fiber = {
+			attributes: elem.attributes,
+			children: elem.children,
+			context: elem.context,
+			effect: 'CREATE',
+			parent: uow,
+			tag: elem.tag,
+		}
+	}
+	else if (old && !same) {
+		old.effect = 'DELETE'
+		to_delete.push(old)
+	}
+
+	return fiber
+}
+
 const reconcile = (uow: Fiber, children?: JSX.Element[]) => {
 	let previous: Fiber | undefined
 	let old = uow.previous?.child
@@ -154,62 +192,45 @@ const reconcile = (uow: Fiber, children?: JSX.Element[]) => {
 			:
 			e;
 
-		const same = old?.tag === elem.tag
-		let fiber: Fiber | undefined
+		if (elem.tag === 'fragment') {
+			for (const [idx, c] of (elem.children ?? []).entries()) {
+				const fiber = doReconcile(c, uow, old)
 
-		if (same) {
-			fiber = {
-				attributes: elem.attributes,
-				children: elem.children,
-				container: old?.container,
-				context: uow.context,
-				effect: 'UPDATE',
-				parent: uow,
-				previous: old,
-				tag: old?.tag,
+				if (old) old = old.sibling
+
+				if (i === 0 && idx === 0) uow.child = fiber
+				else if (previous) previous.sibling = fiber
+
+				previous = fiber
 			}
-			// console.log('UPDATE', fiber)
 		}
-		else if (elem && !same) {
-			fiber = {
-				attributes: elem.attributes,
-				children: elem.children,
-				context: elem.context,
-				effect: 'CREATE',
-				parent: uow,
-				tag: elem.tag,
-			}
-			// console.log('CREATE', fiber)
+		else {
+			const fiber = doReconcile(elem, uow, old)
+
+			if (old) old = old.sibling
+
+			if (i === 0) uow.child = fiber
+			else if (previous) previous.sibling = fiber
+
+			previous = fiber
 		}
-		else if (uow.previous && old && !same) {
-			old.effect = 'DELETE'
-			to_delete.push(uow.previous)
-			// console.log('DELETE', uow, old)
-		}
+	}
+
+	while (old) {
+		old.effect = 'DELETE'
+		to_delete.push(old)
 
 		if (old) old = old.sibling
-
-		if (i === 0) uow.child = fiber
-		else if (previous) previous.sibling = fiber
-
-		previous = fiber
 	}
 }
 
-const update = {
-	fn: (fiber: Fiber) => {
-		if (fiber.context) reconcile(fiber, [fiber.context(fiber.attributes)])
-	},
-	host: (fiber: Fiber) => {
-		if (!fiber.container) fiber.container = dom(fiber)
-
-		reconcile(fiber, fiber.children)
-	}
+const update = (fiber: Fiber) => {
+	if (!fiber.container) fiber.container = dom(fiber)
+	reconcile(fiber, fiber.children)
 }
 
 const perform_unit_of_work = (uow: Fiber): Fiber | undefined => {
-	if (typeof uow.context === 'function') update.fn(uow)
-	else update.host(uow)
+	update(uow)
 
 	if (uow.child) return uow.child
 
