@@ -35,3 +35,16 @@ export declare namespace JSX {
     children?: object | string;
   }
 }
+
+export type Fiber = {
+	attributes: Record<string, string | Function>
+	container?: Element | undefined
+	children?: DOMTree[] | undefined
+	child?: Fiber | undefined
+	context?: CallableFunction | undefined
+	effect?: "CREATE" | "DELETE" | "UPDATE"
+	parent?: Fiber | undefined
+	previous?: Fiber | undefined
+	sibling?: Fiber | undefined
+	tag?: string | Function | keyof HTMLElementTagNameMap | undefined
+}
