@@ -2,9 +2,10 @@ import callback from "./callback"
 import * as unit_of_work from "./unit_of_work"
 import work from "./work"
 
-import { JSX } from "./types"
+import { type JSX } from "./types"
 
-requestIdleCallback(work)
+if (typeof requestIdleCallback !== 'undefined')
+	requestIdleCallback(work)
 
 const fun = (
   element: JSX.Element,

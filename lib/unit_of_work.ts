@@ -1,15 +1,18 @@
-import comit from "./commit"
-import dom from "./dom"
+import {
+	root as commit_root,
+	work as commit_work,
+} from "./commit"
+import { build } from "./dom"
 import reconcile from "./reconcile"
 
 import {
-	Fiber,
-	JSX,
+	type Fiber,
+	type JSX,
 } from "./types"
 
 export const perform = () => {
 	if (_next) {
-		if (!_next.container) _next.container = dom.build(_next)
+		if (!_next.container) _next.container = build(_next)
 
 		reconcile(_next)
 
@@ -54,10 +57,10 @@ let _current: Fiber | undefined
 
 export const next = () => _next
 export const root = () => _wip
-export const commit = () => { if (!_next && _wip) comit.root() }
+export const commit = () => { if (!_next && _wip) commit_root() }
 export const complete = () => {
 	if (_wip?.child) {
-		comit.work(_wip.child)
+		commit_work(_wip.child)
 		_current = _wip
 		_wip = undefined
 	}

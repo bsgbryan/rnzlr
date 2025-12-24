@@ -1,6 +1,6 @@
-import { Fiber } from "./types"
+import { type Fiber } from "./types"
 
-const build = (uow: Fiber) => {
+export const build = (uow: Fiber) => {
 	const dom = document.createElement(uow.tag as keyof HTMLElementTagNameMap)
 
   for (const [k, v] of Object.entries(uow.attributes ?? {})) {
@@ -22,7 +22,7 @@ const build = (uow: Fiber) => {
   return dom
 }
 
-const update = (
+export const update = (
 	container: Element,
 	previous?: Record<string, string | Function>,
 	current?: Record<string, string | Function>,
@@ -63,10 +63,3 @@ const update = (
 			})
 	}
 }
-
-const dom = {
-	build,
-	update,
-}
-
-export default dom

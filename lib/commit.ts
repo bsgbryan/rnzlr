@@ -1,29 +1,25 @@
-import * as deletion from "./deletion"
-import dom from "./dom"
-import * as unit_of_work from "./unit_of_work"
+import { execute } from "./deletion"
+import {
+	build,
+	update,
+} from "./dom"
+import { complete } from "./unit_of_work"
 
-import { Fiber } from "./types"
+import { type Fiber } from "./types"
 
-const root = () => {
-	deletion.execute()
-	unit_of_work.complete()
+export const root = () => {
+	execute()
+	complete()
 }
 
-const work = (fiber: Fiber) => {
-	if (!fiber.container) fiber.container = dom.build(fiber)
+export const work = (fiber: Fiber) => {
+	if (!fiber.container) fiber.container = build(fiber)
 
 	if (fiber.effect === "CREATE" && fiber.parent?.container && fiber.container)
 		fiber.parent.container.appendChild(fiber.container)
-	else if (fiber.effect === "UPDATE" && fiber.parent?.container && fiber.container)
-		dom.update(fiber.container, fiber.previous?.attributes, fiber.attributes)
+	else if (fiber.effect === "UPDATE" && fiber.container)
+		update(fiber.container, fiber.previous?.attributes, fiber.attributes)
 
 	if (fiber.child) work(fiber.child)
 	if (fiber.sibling) work(fiber.sibling)
 }
-
-const commit = {
-	root,
-	work,
-}
-
-export default commit
