@@ -1,6 +1,6 @@
 import {
-	DOMTree,
-	JSX,
+	type DOMTree,
+	type JSX,
 } from "./types"
 
 export default (
@@ -19,14 +19,14 @@ export default (
 	      }, {} as DOMTree['attributes']),
 	    tag
 	  } as unknown as DOMTree
-	
+
 	  const c = props.children;
 	  const isa = Array.isArray(c);
-	
+
 	  if (c &&  isa                         ) output.children        =  c
 	  if (c && !isa && typeof c !== 'object') output.attributes.text =  c
 	  if (c && !isa && typeof c === 'object') output.children        = [c as DOMTree]
-	
+
 	  return output
   }
   else return {} as unknown as DOMTree

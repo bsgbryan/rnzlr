@@ -1,8 +1,8 @@
 import _render from "./render"
 
 import {
-  Callbacks as _Callbacks,
-  DOMTree,
+  type Callbacks as _Callbacks,
+  type DOMTree,
 } from "./types"
 
 export const render = _render

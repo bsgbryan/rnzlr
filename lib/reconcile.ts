@@ -2,8 +2,8 @@ import callback from "./callback"
 import * as deletion from "./deletion"
 
 import {
-	Fiber,
-	JSX
+	type Fiber,
+	type JSX,
 } from "./types"
 
 const determineEffect = (
