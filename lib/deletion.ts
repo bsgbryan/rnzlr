@@ -1,4 +1,4 @@
-import { type Fiber } from "./types";
+import { type Fiber } from './types'
 
 const fibers: Fiber[] = []
 

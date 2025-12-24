@@ -1,4 +1,4 @@
-import { type Fiber } from "./types"
+import { type Fiber } from './types'
 
 export const build = (uow: Fiber) => {
 	const dom = document.createElement(uow.tag as keyof HTMLElementTagNameMap)
@@ -25,7 +25,7 @@ export const build = (uow: Fiber) => {
 export const update = (
 	container: Element,
 	previous?: Record<string, string | Function>,
-	current?: Record<string, string | Function>,
+	current?:  Record<string, string | Function>,
 ) => {
 	if (previous && current) {
 		Object.keys(previous)

@@ -1,4 +1,4 @@
-import objectify from "./objectify"
+import objectify from './objectify'
 
 export const Fragment = 'fragment'
 

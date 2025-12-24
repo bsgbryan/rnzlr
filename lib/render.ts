@@ -1,8 +1,10 @@
-import callback from "./callback"
-import * as unit_of_work from "./unit_of_work"
-import work from "./work"
+import callback from './callback'
 
-import { type JSX } from "./types"
+import { generate as generate_unit_of_work } from './unit_of_work'
+
+import work from './work'
+
+import { type JSX } from './types'
 
 if (typeof requestIdleCallback !== 'undefined')
 	requestIdleCallback(work)
@@ -16,7 +18,7 @@ const fun = (
 		:
 		element
 
-	unit_of_work.generate(elem, container)
+	generate_unit_of_work(elem, container)
 }
 
 export default fun

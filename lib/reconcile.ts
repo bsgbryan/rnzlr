@@ -1,10 +1,11 @@
-import callback from "./callback"
-import * as deletion from "./deletion"
+import callback from './callback'
+
+import { add as mark_for_deletion } from './deletion'
 
 import {
 	type Fiber,
 	type JSX,
-} from "./types"
+} from './types'
 
 const determineEffect = (
 	elem: JSX.Element,
@@ -36,7 +37,7 @@ const determineEffect = (
 			tag: elem.tag,
 		}
 	}
-	else if (old && !same) deletion.add(old)
+	else if (old && !same) mark_for_deletion(old)
 
 	return fiber
 }
@@ -93,7 +94,7 @@ const reconcile = (uow: Fiber) => {
 	}
 
 	while (old) {
-		deletion.add(old)
+		mark_for_deletion(old)
 
 		if (old) old = old.sibling
 	}

@@ -1,7 +1,7 @@
 import {
 	type DOMTree,
 	type JSX,
-} from "./types"
+} from './types'
 
 export default (
   tag: string | Function,

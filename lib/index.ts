@@ -1,4 +1,4 @@
-import _render from "./render"
+import _render from './render'
 
 import {
   type Callbacks as _Callbacks,
