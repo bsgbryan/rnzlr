@@ -14,7 +14,7 @@ const fun = (
   container: Element,
 ) => {
 	const elem = typeof element.context === "function" ?
-		element.context({ callbacks: { render: callback(container) }})
+		element.context({ render: callback(container) })
 		:
 		element
 

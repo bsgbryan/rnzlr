@@ -9,18 +9,14 @@ export const jsxDEV = objectify
 export type RenderCallback = (component: CallableFunction) => void;
 
 export type Callbacks = {
-  render: RenderCallback;
-}
-
-type Params = {
-  callbacks: Callbacks;
-}
+	render: RenderCallback;
+};
 
 export declare interface DOMTree {
-  tag?:  string | Function;
-  attributes:  Record<string, string | Function>;
-  children?: DOMTree[];
-	context?: (params: Params) => JSX.Element;
+	tag?: string | Function;
+	attributes: Record<string, string | Function>;
+	children?: DOMTree[];
+	context?: (callbacks: Callbacks) => JSX.Element;
 }
 
 export declare namespace JSX {

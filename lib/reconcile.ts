@@ -58,7 +58,7 @@ const reconcile = (uow: Fiber) => {
 
 	for (const [i, e] of (uow.children ?? []).entries()) {
 		const elem = typeof e.context === "function" ?
-			e.context({ callbacks: { render: callback(uow.container!) }})
+			e.context({ render: callback(uow.container!) })
 			:
 			e;
 
