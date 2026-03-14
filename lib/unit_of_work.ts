@@ -12,28 +12,24 @@ import {
 	type JSX,
 } from './types'
 
-export const perform = () => {
-	if (_next) {
-		if (!_next.container) _next.container = build(_next)
+export const perform = (task?: Fiber) => {
+	if (!task) {
+		_current = _wip.shift()
+		 task 	 =_current
+	}
 
-		reconcile(_next)
+	if (task) {
+		if (!task.container) task.container = build(task)
 
-		if (_next.child) {
-			_next = _next.child
-			return
-		}
+		reconcile(task)
 
-		let next: Fiber | undefined = _next
+		if (task.child) perform(task.child)
+
+		let next: Fiber | undefined = task
 		while (next) {
-			if (next.sibling) {
-				_next = next.sibling
-				return
-			}
-
+			if (next.sibling) perform(next.sibling)
 			next = next.parent
 		}
-
-		_next = undefined
 	}
 }
 
@@ -41,29 +37,26 @@ export const generate = (
 	input: 		 JSX.Element,
 	container: Element,
 ) => {
-	_wip = {
+	_wip.push({
 		container,
 		attributes: input.attributes,
 		children: [input],
 		context: input.context,
 		previous: _current,
 		tag: input.tag,
-	}
-
-	_next = _wip
+	})
 }
 
-let _next: 		Fiber | undefined
-let _wip: 		Fiber | undefined
+const _wip: Fiber[] = []
 let _current: Fiber | undefined
 
-export const next 		= () => _next
-export const root 		= () => _wip
-export const commit 	= () => { if (!_next && _wip) commit_root() }
+export const next = () => _wip.length > 0
+
+export const commit = () => {
+	if (_current) commit_root()
+}
+
 export const complete = () => {
-	if (_wip?.child) {
-		commit_work(_wip.child)
-		_current = _wip
-		_wip = undefined
-	}
+	if (_current?.child) commit_work(_current.child)
+	_current = undefined
 }
