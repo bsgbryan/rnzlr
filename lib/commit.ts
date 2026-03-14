@@ -5,16 +5,9 @@ import {
 	update as update_dom,
 } from './dom'
 
-import { complete as complete_work } from './unit_of_work'
-
 import { type Fiber } from './types'
 
-export const root = () => {
-	execute_deletion()
-	complete_work()
-}
-
-export const work = (fiber: Fiber) => {
+const fun = (fiber: Fiber) => {
 	if (!fiber.container) fiber.container = build_dom(fiber)
 
 	if (fiber.effect === "CREATE" && fiber.parent?.container && fiber.container)
@@ -22,6 +15,8 @@ export const work = (fiber: Fiber) => {
 	else if (fiber.effect === "UPDATE" && fiber.container)
 		update_dom(fiber.container, fiber.previous?.attributes, fiber.attributes)
 
-	if (fiber.child) work(fiber.child)
-	if (fiber.sibling) work(fiber.sibling)
+	if (fiber.child) fun(fiber.child)
+	if (fiber.sibling) fun(fiber.sibling)
 }
+
+export default fun

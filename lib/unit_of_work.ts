@@ -1,10 +1,7 @@
-import {
-	root as commit_root,
-	work as commit_work,
-} from './commit'
+import commit from './commit'
 
 import { build } from './dom'
-
+import { execute as execute_deletion } from './deletion'
 import reconcile from './reconcile'
 
 import {
@@ -13,10 +10,9 @@ import {
 } from './types'
 
 export const perform = (task?: Fiber) => {
-	if (!task) {
-		current = todo.shift()
-		task 	 	=	current
-	}
+	const is_root = !task
+
+	if (!task) task = todo.shift()
 
 	if (task) {
 		if (!task.container) task.container = build(task)
@@ -31,7 +27,15 @@ export const perform = (task?: Fiber) => {
 			next = next.parent
 		}
 	}
+
+	if (is_root && task) {
+		execute_deletion()
+
+		if (task?.child) commit(task.child)
+	}
 }
+
+const todo: Fiber[] = []
 
 export const generate = (
 	input: 		 JSX.Element,
@@ -42,21 +46,8 @@ export const generate = (
 		attributes: input.attributes,
 		children: [input],
 		context: input.context,
-		previous: current,
 		tag: input.tag,
 	})
 }
 
-const todo: Fiber[] = []
-let current: Fiber | undefined
-
 export const next = () => todo.length > 0
-
-export const commit = () => {
-	if (current) commit_root()
-}
-
-export const complete = () => {
-	if (current?.child) commit_work(current.child)
-	current = undefined
-}

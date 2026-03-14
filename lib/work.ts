@@ -1,33 +1,20 @@
 import {
-	commit,
 	next,
 	perform,
 } from './unit_of_work'
 
-export const idle = (deadline: IdleDeadline) => {
-	let should_yield = false
+const work_time = 16; // ms available for each work iteration
 
-	while (next() && !should_yield) {
+const fun = (last_render: number) => {
+	let time_remaining = true
+
+	while (next() && time_remaining) {
 		perform()
-		should_yield = deadline.timeRemaining() < 1
+		console.log('elapsed', performance.now() - last_render)
+		time_remaining = (performance.now() - last_render) < work_time
 	}
 
-	commit()
-
-	requestIdleCallback(idle)
+	requestAnimationFrame(fun)
 }
 
-const work_time = 16.666667;
-
-export const animation = (last_render: number) => {
-	let should_yield = false
-
-	while (next() && !should_yield) {
-		perform()
-		should_yield = performance.now() - last_render < work_time
-	}
-
-	commit()
-
-	requestAnimationFrame(animation)
-}
+export default fun

@@ -2,16 +2,11 @@ import callback from './callback'
 
 import { generate as generate_unit_of_work } from './unit_of_work'
 
-import {
-	animation,
-	idle,
-} from './work'
+import work from './work'
 
 import { type JSX } from './types'
 
-if (typeof requestIdleCallback !== 'undefined')
-	requestIdleCallback(idle)
-else requestAnimationFrame(animation)
+requestAnimationFrame(work)
 
 const fun = (
   element: JSX.Element,
