@@ -1,11 +1,11 @@
 {
   "name": "@bsgbryan/rnzlr",
-  "version": "25.8.13",
+  "version": "26.3.14",
   "author": "Bryan Maynard <bsgbryan@gmail.com> (https://bsgbryan.com)",
   "type": "module",
   "repository": {
     "type": "git",
-    "url": "git@github.com:bsgbryan/rnzlr.git"
+    "url": "git+ssh://git@github.com/bsgbryan/rnzlr.git"
   },
   "main": "./dist/index.js",
   "exports": {
@@ -47,7 +47,6 @@
   "homepage": "https://github.com/bsgbryan/rnzlr#readme",
   "keywords": [],
   "license": "MIT",
-  "private": true,
   "scripts": {
     "build": "tsc -p tsconfig.json"
   },
