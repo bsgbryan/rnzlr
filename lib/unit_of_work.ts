@@ -14,8 +14,8 @@ import {
 
 export const perform = (task?: Fiber) => {
 	if (!task) {
-		_current = _wip.shift()
-		 task 	 =_current
+		current = todo.shift()
+		task 	 	=	current
 	}
 
 	if (task) {
@@ -37,26 +37,26 @@ export const generate = (
 	input: 		 JSX.Element,
 	container: Element,
 ) => {
-	_wip.push({
+	todo.push({
 		container,
 		attributes: input.attributes,
 		children: [input],
 		context: input.context,
-		previous: _current,
+		previous: current,
 		tag: input.tag,
 	})
 }
 
-const _wip: Fiber[] = []
-let _current: Fiber | undefined
+const todo: Fiber[] = []
+let current: Fiber | undefined
 
-export const next = () => _wip.length > 0
+export const next = () => todo.length > 0
 
 export const commit = () => {
-	if (_current) commit_root()
+	if (current) commit_root()
 }
 
 export const complete = () => {
-	if (_current?.child) commit_work(_current.child)
-	_current = undefined
+	if (current?.child) commit_work(current.child)
+	current = undefined
 }
