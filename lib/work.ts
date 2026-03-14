@@ -4,7 +4,7 @@ import {
 	perform,
 } from './unit_of_work'
 
-const fun = (deadline: IdleDeadline) => {
+export const idle = (deadline: IdleDeadline) => {
 	let should_yield = false
 
 	while (next() && !should_yield) {
@@ -14,7 +14,20 @@ const fun = (deadline: IdleDeadline) => {
 
 	commit()
 
-	requestIdleCallback(fun)
+	requestIdleCallback(idle)
 }
 
-export default fun
+const work_time = 16.666667;
+
+export const animation = (last_render: number) => {
+	let should_yield = false
+
+	while (next() && !should_yield) {
+		perform()
+		should_yield = performance.now() - last_render < work_time
+	}
+
+	commit()
+
+	requestAnimationFrame(animation)
+}
