@@ -1,8 +1,12 @@
-import { render } from './index'
+import { render as _render } from './index'
 
-const callback = (container: Element) => (
+export const render = (container: Element) => (
 	component: CallableFunction,
 	props: object,
-) => render(component(props), container)
+) => _render(component(props), container)
 
-export default callback
+export const id = (selector: string, content: string) => {
+	const element = document.getElementById(selector)
+	if (element) element.innerHTML = content
+	else console.error(`No element with id ${selector} found`)
+}

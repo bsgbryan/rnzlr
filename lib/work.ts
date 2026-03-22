@@ -10,7 +10,6 @@ const fun = (last_render: number) => {
 
 	while (next() && time_remaining) {
 		perform()
-		console.log('elapsed', performance.now() - last_render)
 		time_remaining = (performance.now() - last_render) < work_time
 	}
 

@@ -7,9 +7,11 @@ export const jsxs		= objectify
 export const jsxDEV = objectify
 
 export type RenderCallback = (component: CallableFunction, props: object) => void;
+export type IDCallback = (selector: string, content: string) => void;
 
 export type Callbacks = {
 	render: RenderCallback;
+	id: IDCallback;
 };
 
 export declare interface DOMTree {

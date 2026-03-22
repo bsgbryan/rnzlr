@@ -1,4 +1,4 @@
-import callback from './callback'
+import { render, id } from './callback'
 
 import { add as mark_for_deletion } from './deletion'
 
@@ -58,7 +58,7 @@ const reconcile = (uow: Fiber) => {
 
 	for (const [i, e] of (uow.children ?? []).entries()) {
 		const elem = typeof e.context === "function" ?
-			e.context({ render: callback(uow.container!) })
+			e.context({ render: render(uow.container!), id })
 			:
 			e;
 
