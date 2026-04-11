@@ -1,5 +1,3 @@
-import { execute as execute_deletion } from './deletion'
-
 import {
 	build  as build_dom,
 	update as update_dom,
@@ -10,8 +8,10 @@ import { type Fiber } from './types'
 const fun = (fiber: Fiber) => {
 	if (!fiber.container) fiber.container = build_dom(fiber)
 
-	if (fiber.effect === "CREATE" && fiber.parent?.container && fiber.container)
+	if (fiber.effect === "CREATE" && fiber.parent?.container && fiber.container) {
 		fiber.parent.container.appendChild(fiber.container)
+		if (fiber.parent?.callbacks?.after?.render) fiber.parent?.callbacks?.after?.render()
+	}
 	else if (fiber.effect === "UPDATE" && fiber.container)
 		update_dom(fiber.container, fiber.previous?.attributes, fiber.attributes)
 

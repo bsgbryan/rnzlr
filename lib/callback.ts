@@ -1,4 +1,5 @@
 import { render as _render } from './index'
+import { type JSX } from './types'
 
 export const render = (container: Element) => (
 	component: CallableFunction,
@@ -10,3 +11,9 @@ export const id = (selector: string, content: string) => {
 	if (element) element.innerHTML = content
 	else console.error(`No element with id ${selector} found`)
 }
+
+export const after = (comp: JSX.Element) => Object.freeze({
+	render: (fn: CallableFunction) => {
+		comp.callbacks = { after: { render: fn } }
+	}
+})

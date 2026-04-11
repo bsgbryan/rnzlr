@@ -7,6 +7,11 @@ import {
 
 export const render = _render
 
-export const Component = (init: Function) => () => ({ context: init } as DOMTree)
+export const Component = (init: Function) => () => ({
+	context: init,
+	callbacks: {
+		after: {}
+	}
+})
 
 export type Callbacks = _Callbacks

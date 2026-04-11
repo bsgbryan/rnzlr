@@ -5,6 +5,7 @@ import { execute as execute_deletion } from './deletion'
 import reconcile from './reconcile'
 
 import {
+	type Callbacks,
 	type Fiber,
 	type JSX,
 } from './types'
@@ -38,7 +39,7 @@ export const perform = (task?: Fiber) => {
 const todo: Fiber[] = []
 
 export const generate = (
-	input: 		 JSX.Element,
+	input: JSX.Element,
 	container: Element,
 ) => {
 	todo.push({
@@ -47,6 +48,7 @@ export const generate = (
 		children: [input],
 		context: input.context,
 		tag: input.tag,
+		callbacks: input.callbacks,
 	})
 }
 

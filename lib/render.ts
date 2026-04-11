@@ -1,4 +1,4 @@
-import { render, id } from './callback'
+import { after, id, render } from './callback'
 
 import { generate as generate_unit_of_work } from './unit_of_work'
 
@@ -12,8 +12,14 @@ const fun = (
   element: JSX.Element,
   container: Element,
 ) => {
+	const callbacks = {
+		after,
+		id,
+		render: render(container),
+	}
+
 	const elem = typeof element.context === "function" ?
-		element.context({ render: render(container), id })
+		element.context(callbacks)
 		:
 		element
 
