@@ -1,17 +1,17 @@
-import _render from './render'
+import { type JSX } from "@bsgbryan/rnzlr/jsx-runtime"
+import _render from "./render"
+import type { Callbacks } from "./types"
 
-import {
-  type Callbacks as _Callbacks,
-  type DOMTree,
-} from "./types"
+export type { Callbacks } from "./types"
 
 export const render = _render
 
-export const Component = (init: Function) => () => ({
-	context: init,
+type Init = (callbacks: Callbacks) => JSX.Element
+
+export default (init: Init) => () => ({
+	attributes: {},
 	callbacks: {
 		after: {}
-	}
+	},
+	context: init,
 })
-
-export type Callbacks = _Callbacks
